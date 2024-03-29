@@ -1,5 +1,5 @@
 import { Button } from "./ui/button";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 function Hero() {
 	return (
 		<div>
@@ -23,7 +23,7 @@ function Hero() {
 							into a gloom. But there was one person who refused to let the
 							king's foolishness get him down: a court jester named Jokester.
 						</p>
-						<Link to="/login">
+						<Link to="/signup">
 							<Button className="w-full mt-5 text-amber-500 font-bold text-2xl">
 								Try me!
 							</Button>
