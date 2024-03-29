@@ -54,6 +54,8 @@ function RootLayoutNav() {
         <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
         <Stack.Screen name="Signup/index" options={{ headerShown: false}} />
         <Stack.Screen name="Dashboard/index" options={{ headerShown: false}} />
+        <Stack.Screen name="Chatbot/index" options={{ headerShown: false}} />
+
 
 
 
