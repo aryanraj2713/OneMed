@@ -1,5 +1,6 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { Button } from "./ui/button";
+import { Link } from "react-router-dom";
 function Login() {
 	return (
 		<div className="flex flex-col w-full h-auto">
@@ -34,21 +35,24 @@ function Login() {
 						onSubmit={(values, { setSubmitting }) => {
 							setTimeout(async () => {
 								try {
-									const response = await fetch('http://127.0.0.1:8000/auth/login', {
-										method: 'POST',
-										headers: {
-											'Accept': 'application/json',
-											'Content-Type': 'application/x-www-form-urlencoded'
+									const response = await fetch(
+										"http://127.0.0.1:8000/auth/login",
+										{
+											method: "POST",
+											headers: {
+												Accept: "application/json",
+												"Content-Type": "application/x-www-form-urlencoded",
+											},
+											body: new URLSearchParams({
+												grant_type: "",
+												username: values.email,
+												password: values.password,
+												scope: "",
+												client_id: "",
+												client_secret: "",
+											}),
 										},
-										body: new URLSearchParams({
-											'grant_type': '',
-											'username': values.email,
-											'password': values.password,
-											'scope': '',
-											'client_id': '',
-											'client_secret': ''
-										})
-									});
+									);
 									console.log(response);
 									window.location.href = "/dashboard";
 									console.log(response);
@@ -97,6 +101,9 @@ function Login() {
 							</Form>
 						)}
 					</Formik>
+				</div>
+				<div className="flex w-full items-center  justify-center gap-2">
+					Don't have an account? <Link to="/signup" className="underline">Sign up</Link>
 				</div>
 			</div>
 		</div>

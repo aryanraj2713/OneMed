@@ -1,5 +1,6 @@
 import { Formik, Form, Field } from "formik";
 import { Button } from "./ui/button";
+import { Link } from "react-router-dom";
 function Signup() {
 	return (
 		<div className="flex flex-col w-full h-auto">
@@ -138,6 +139,9 @@ function Signup() {
 							</Form>
 						)}
 					</Formik>
+				</div>
+				<div className="flex w-full items-center  justify-center gap-2">
+					Already have an account? <Link to="/Login" className="underline">Sign in</Link>
 				</div>
 			</div>
 		</div>
