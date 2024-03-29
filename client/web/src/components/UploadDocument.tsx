@@ -25,7 +25,7 @@ function UploadDocument(): JSX.Element {
         );
         const data = await response.json();
         console.log(data);
-        localStorage.setItem('entities', JSON.stringify(data));
+        localStorage.setItem('entities', JSON.stringify(data)); // store the entities in local storage
     };
 
     const stepthree = async (text: string) => {
@@ -43,7 +43,7 @@ function UploadDocument(): JSX.Element {
         console.log(data);
         const summary = data[0];
         console.log(summary.summary_text);
-        localStorage.setItem('summary', summary.summary_text);
+        localStorage.setItem('summary', summary.summary_text); // store the mini summary in local storage
     }
 
 
@@ -61,7 +61,7 @@ function UploadDocument(): JSX.Element {
                 setText(data.text);
                 if (response.ok) {
                     setUploadStatus('File uploaded successfully!');
-                    localStorage.setItem('text', data.text);
+                    localStorage.setItem('text', data.text); // store the medical records in local storage
                     setFile(null);
                     console.log(localStorage.getItem('text'));
                     await steptwo(localStorage.getItem('text') || '');
