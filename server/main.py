@@ -6,6 +6,7 @@ from database import SessionLocal, engine
 from sqlalchemy.orm import Session
 import auth
 import gemini
+import ml
 from starlette import status
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -13,6 +14,7 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 app.include_router(auth.router)
 app.include_router(gemini.router)
+app.include_router(ml.router)
 models.Base.metadata.create_all(bind=engine)
 
 
