@@ -25,6 +25,7 @@ function UploadDocument(): JSX.Element {
         );
         const data = await response.json();
         console.log(data);
+        localStorage.setItem('entities', JSON.stringify(data));
     };
 
     const stepthree = async (text: string) => {
@@ -40,6 +41,9 @@ function UploadDocument(): JSX.Element {
 
         const data = await response.json();
         console.log(data);
+        const summary = data[0];
+        console.log(summary.summary_text);
+        localStorage.setItem('summary', summary.summary_text);
     }
 
 
