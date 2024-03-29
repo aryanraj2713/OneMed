@@ -40,11 +40,11 @@ function Signup() {
 						}}
 						onSubmit={(values, { setSubmitting }) => {
 							try {
-								setTimeout(() => {
+								setTimeout(async () => {
 									console.log(values);
 									values.age = parseInt(values.age.toString());
 									const url = "http://127.0.0.1:8000/auth/signup";
-									const response = fetch(url, {
+									const response = await fetch(url, {
 										method: "POST",
 										headers: {
 											"Content-Type": "application/json",
