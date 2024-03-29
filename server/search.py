@@ -8,12 +8,8 @@ import requests
 import random
 import os
 
-# Chatbot API
 
-# Path: server/utils/chat.py
-# Compare this snippet from server/auth.py:
-
-router = APIRouter(prefix="/chat", tags=["chat"])
+router = APIRouter(prefix="/search", tags=["search"])
 
 class SearchRequest(BaseModel):
     medical_number: str
