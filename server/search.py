@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, UploadFile, File
+from fastapi import APIRouter, Depends, HTTPException, Query  # Add Query for GET parameters
 from pydantic import BaseModel
 from starlette import status
 from database import SessionLocal
@@ -24,8 +24,7 @@ def get_user(medical_number):
     db.close()
     return user
     
-@router.post("/search", response_model=SearchResponse, status_code=status.HTTP_200_OK)
-async def search(search_request: SearchRequest):
-    medical_number = search_request.medical_number
+@router.get("/search", response_model=SearchResponse, status_code=status.HTTP_200_OK)
+async def search(medical_number: str = Query(...)):  # Query for GET parameter
     user = get_user(medical_number)
     return {"user": user}
