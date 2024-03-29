@@ -1,8 +1,8 @@
 # import speech_recognition as sr
 import google.generativeai as genai
+import os
 
-
-genai.configure(api_key="AIzaSyDpQOmzDf1hr4t5dSWCzfqhIka_8DePLcQ")
+genai.configure(api_key=os.environ['GEMINI_API_KEY'])
 
 generation_config = {
   "temperature": 0.7,  # Slightly less creative
