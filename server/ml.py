@@ -5,6 +5,9 @@ from starlette import status
 from database import SessionLocal
 from utils.chat import process_input_and_extract
 from transformers import pipeline
+from models import Users, DocumentSummary, VoiceSummary
+from pydantic import BaseModel
+from starlette import status
 import PyPDF2
 import requests
 import random
