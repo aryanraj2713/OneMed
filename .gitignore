@@ -2,3 +2,4 @@ __pycache__
 home
 ./server/data
 node_modules
+DS_Store
