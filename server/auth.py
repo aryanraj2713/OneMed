@@ -55,7 +55,7 @@ db_dependency = Annotated[Session, Depends(get_db)]
 
 @router.post("/signup", status_code=status.HTTP_201_CREATED)
 async def create_user(db: db_dependency, create_user_request: CreateUserRequest):
-    if create_user_request.is_doctor:
+    if create_user_request.is_hospital:
         create_user_model = Hospitals(
             name=create_user_request.name,
             address=create_user_request.address,
