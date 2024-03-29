@@ -38,6 +38,20 @@ class Hospitals(Base):
     password = Column(String)
     
     
+class DocumentSummary(Base):
+    __tablename__ = "document_summary"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    summary = Column(String)
+
+class VoiceSummary(Base):
+    __tablename__ = "voice_summary"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    summary = Column(String)
+    
 class FamilyGroup(Base):
     __tablename__ = "family_group"
     
