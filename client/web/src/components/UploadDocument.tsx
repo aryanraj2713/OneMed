@@ -3,7 +3,8 @@ import { useState, ChangeEvent, FormEvent } from 'react';
 function UploadDocument(): JSX.Element {
     const [file, setFile] = useState<File | null>(null);
     const [uploadStatus, setUploadStatus] = useState<string>('');
-
+    const [text, setText] = useState<string>('');
+    console.log(text);
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
         const selectedFile = e.target.files?.[0];
         if (selectedFile) {
@@ -11,19 +12,56 @@ function UploadDocument(): JSX.Element {
         }
     };
 
+    const steptwo = async (text: string) => {
+        const formData = new FormData();
+        formData.append('text', text);
+        formData.append('pdf_file', file as Blob)
+        const response = await fetch(
+            'http://127.0.0.1:8000/ml/extract-ner/',
+            {
+                method: 'POST',
+                body: formData,
+            }
+        );
+        const data = await response.json();
+        console.log(data);
+    };
+
+    const stepthree = async (text: string) => {
+        const url = new URL('http://127.0.0.1:8000/ml/medical-summary/');
+        url.searchParams.append('text', text);
+
+        const response = await fetch(url.toString(), {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+
+        const data = await response.json();
+        console.log(data);
+    }
+
+
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         if (file) {
             try {
                 const formData = new FormData();
-                formData.append('file', file);
-                const response = await fetch('https://example.com/api/upload', {
+                formData.append('pdf_file', file);
+                const response = await fetch('http://127.0.0.1:8000/ml/extract-text/', {
                     method: 'POST',
                     body: formData,
                 });
+                const data = await response.json();
+                setText(data.text);
                 if (response.ok) {
                     setUploadStatus('File uploaded successfully!');
+                    localStorage.setItem('text', data.text);
                     setFile(null);
+                    console.log(localStorage.getItem('text'));
+                    await steptwo(localStorage.getItem('text') || '');
+                    await stepthree(localStorage.getItem('text') || '');
                 } else {
                     setUploadStatus('File upload failed. Please try again.');
                 }

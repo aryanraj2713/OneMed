@@ -1,6 +1,5 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { Button } from "./ui/button";
-import {Link} from "react-router-dom";
 function Login() {
 	return (
 		<div className="flex flex-col w-full h-auto">
@@ -20,7 +19,7 @@ function Login() {
 				<div className="flex flex-col w-full h-[70vh] items-center justify-center">
 					<h1 className="text-xl font-bold mb-4">Login here</h1>
 					<Formik
-						initialValues={{ email: "", password: "" }}
+						initialValues={{ email: "", password: "", username: "" }}
 						validate={(values) => {
 							const errors: { email?: string } = {}; // Add type declaration for 'errors' object
 							if (!values.email) {
@@ -33,10 +32,31 @@ function Login() {
 							return errors;
 						}}
 						onSubmit={(values, { setSubmitting }) => {
-							setTimeout(() => {
-								alert(JSON.stringify(values, null, 2));
-								setSubmitting(false);
+							setTimeout(async () => {
+								try {
+									const response = await fetch('http://127.0.0.1:8000/auth/login', {
+										method: 'POST',
+										headers: {
+											'Accept': 'application/json',
+											'Content-Type': 'application/x-www-form-urlencoded'
+										},
+										body: new URLSearchParams({
+											'grant_type': '',
+											'username': values.email,
+											'password': values.password,
+											'scope': '',
+											'client_id': '',
+											'client_secret': ''
+										})
+									});
+									console.log(response);
+									window.location.href = "/dashboard";
+									console.log(response);
+								} catch (error) {
+									console.error("Error logging in:", error);
+								}
 							}, 400);
+							setSubmitting(false);
 						}}
 					>
 						{({ isSubmitting }) => (
@@ -67,15 +87,13 @@ function Login() {
 										className="text-red-500 text-xs italic"
 									/>
 								</div>
-								<Link to="/dashboard">
-									<Button
-										type="submit"
-										disabled={isSubmitting}
-										className=" font-bold w-full text-amber-500 text-xl"
-									>
-										{isSubmitting ? "Submitting..." : "Submit"}
-									</Button>
-								</Link>
+								<Button
+									type="submit"
+									disabled={isSubmitting}
+									className=" font-bold w-full text-amber-500 text-xl"
+								>
+									{isSubmitting ? "Submitting..." : "Submit"}
+								</Button>
 							</Form>
 						)}
 					</Formik>
