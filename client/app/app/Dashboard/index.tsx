@@ -10,6 +10,7 @@ import {
 	StyleSheet,
 	Pressable,
 } from "react-native";
+import WebView from "react-native-webview";
 const Index = () => {
 	return (
 		<KeyboardAvoidingView style={styles.container} behavior="padding">
@@ -49,7 +50,7 @@ const Index = () => {
 								flexDirection: "column",
 								gap: 20,
 							}}
-						>  
+						>
 							<Text
 								style={{ fontSize: 17, color: "white", fontWeight: "bold" }}
 							>
@@ -75,6 +76,26 @@ const Index = () => {
 						</View>
 					</View>
 				</LinearGradient>
+				<Pressable
+					style={{
+						marginTop: 50,
+						backgroundColor: "orange",
+						padding: 10,
+						borderRadius: 5,
+						alignItems: "center",
+						justifyContent: "center",
+						elevation: 3, // For Android shadow
+						shadowColor: "black", // For iOS shadow
+						shadowOffset: { width: 0, height: 2 }, // For iOS shadow
+						shadowOpacity: 0.25, // For iOS shadow
+						shadowRadius: 3, // For iOS shadow
+					}}
+					onPress={()=>{router.push("/Chatbot/")}}
+				>
+					<Text style={{ color: "white", fontWeight: "bold", fontSize: 20 }}>
+						Go to Chatbot
+					</Text>
+				</Pressable>
 			</View>
 		</KeyboardAvoidingView>
 	);
