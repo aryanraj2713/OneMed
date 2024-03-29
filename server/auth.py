@@ -17,7 +17,7 @@ SECRET_KEY = "njf3nf9iaiqiqoajlknbvxcusgouy8957692getfyy"
 ALGORITHM = "HS256"
 
 bcrypt_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-oauth2_bearer = OAuth2PasswordBearer(tokenUrl="/auth/token")
+oauth2_bearer = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
 
 class CreateUserRequest(BaseModel):
@@ -120,6 +120,8 @@ async def login_for_access_token(
 
 def authenticate_user(email: str, password: str, db):
     user = db.query(Users).filter(Users.email == email).first()
+    if user is None:
+        user = db.query(Hospitals).filter(Hospitals.email == email).first()
     if not user:
         return False
     if not bcrypt_context.verify(password, user.password):
@@ -138,9 +140,6 @@ async def get_current_user(
 ):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        print("######Came Here token")
-        print(token)
-        print(payload)
         email: str = payload.get("email")
         id: int = payload.get("id")
         if email is None or id is None:
@@ -154,9 +153,9 @@ async def get_current_user(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Could not validate credentials",
         )
-    print("######Came Here")
     user = db.query(Users).filter(Users.email == email).first()
-    print(user)
+    if user is None:
+        user = db.query(Hospitals).filter(Hospitals.email == email).first()
     if user is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

@@ -45,7 +45,7 @@ def get_db():
 db_dependency = Annotated[Session, Depends(get_db)]
 user_dependency = Annotated[dict, Depends(auth.get_current_user)]
 
-@app.get('/', status_code=status.HTTP_200_OK)
+@app.get('/user', status_code=status.HTTP_200_OK)
 async def user(user: user_dependency, db: db_dependency):
     if user is None:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unauthorized")
