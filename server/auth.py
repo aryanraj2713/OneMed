@@ -121,6 +121,9 @@ async def login_for_access_token(
 def authenticate_user(email: str, password: str, db):
     user = db.query(Users).filter(Users.email == email).first()
     if not user:
+        user = db.query(Hospitals).filter(Users.email == email).first()
+        if not user:
+            return False
         return False
     if not bcrypt_context.verify(password, user.password):
         return False
