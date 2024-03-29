@@ -3,6 +3,7 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import MedicalRecords from "./MedicalRecords";
 import ConsultationRecords from "./ConsultationRecords";
+import { Link } from "react-router-dom";
 
 function Dashboard() {
 	const [activeButton, setActiveButton] = useState(""); // State to track active button
@@ -129,6 +130,21 @@ function Dashboard() {
 						delectus. Neque nisi perferendis natus odit distinctio et
 						accusantium omnis, saepe obcaecati!{" "}
 					</div>
+				</div>
+			</div>
+			<div className="flex w-full justify-center ">
+				<div className="flex w-full bg-orange-200 rounded-2xl border-black border py-10 justify-evenly max-w-5xl">
+					<Link to="/upload-docs">
+						<Button>Upload Document</Button>
+					</Link>
+					{/* <Link to="/upload-audio">
+					<Button>
+						Upload Audio
+					</Button>
+				</Link> */}
+					<Link to="/record-audio">
+						<Button>Record Audio</Button>
+					</Link>
 				</div>
 			</div>
 			<div className="flex w-full justify-center">
