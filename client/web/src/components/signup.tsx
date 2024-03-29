@@ -1,4 +1,4 @@
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field } from "formik";
 import { Button } from "./ui/button";
 function Signup() {
 	return (
@@ -19,10 +19,10 @@ function Signup() {
 				<div className="flex flex-col w-full h-[70vh] items-center justify-center">
 					<h1 className="text-xl font-bold mb-4">Login here</h1>
 					<Formik
-						initialValues={{ name: "", email: "", phone: "", password: "" }}
+						initialValues={{ age: 20, name: "", email: "", phone: "", password: "", address: "", is_hospital: false }}
 						validate={(values) => {
-							const errors: { email?: string, name?:string, phone?:string, password?:string } = {}; 
-                            // Add type declaration for 'errors' object
+							const errors: { email?: string, name?: string, phone?: string, password?: string } = {};
+							// Add type declaration for 'errors' object
 							if (!values.email) {
 								errors.name = "Required";
 							} else if (
@@ -32,17 +32,33 @@ function Signup() {
 							} else if (!values.name) {
 								errors.name = "Required";
 							} else if (!values.phone) {
-                                errors.phone = "Required";
-                            } else if (!values.password) {
-                                errors.password = "Required";
-                            }
+								errors.phone = "Required";
+							} else if (!values.password) {
+								errors.password = "Required";
+							}
 							return errors;
 						}}
 						onSubmit={(values, { setSubmitting }) => {
-							setTimeout(() => {
-								alert(JSON.stringify(values, null, 2));
-								setSubmitting(false);
-							}, 400);
+							try {
+								setTimeout(() => {
+									console.log(values);
+									values.age = parseInt(values.age.toString());
+									const url = "http://127.0.0.1:8000/auth/signup";
+									const response = fetch(url, {
+										method: "POST",
+										headers: {
+											"Content-Type": "application/json",
+										},
+										body: JSON.stringify(values),
+									});
+									window.location.href = "/dashboard";
+									console.log(response);
+									setSubmitting(false);
+								}, 400);
+
+							} catch (error) {
+								console.error(error);
+							}
 						}}
 					>
 						{({ isSubmitting }) => (
@@ -54,11 +70,11 @@ function Signup() {
 										placeholder="Name"
 										className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 									/>
-									<ErrorMessage
+									{/* <ErrorMessage
 										name="name"
 										component="div"
 										className="text-red-500 text-xs italic"
-									/>
+									/> */}
 								</div>
 								<div className="mb-4">
 									<Field
@@ -67,11 +83,11 @@ function Signup() {
 										placeholder="Address"
 										className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 									/>
-									<ErrorMessage
+									{/* <ErrorMessage
 										name="address"
 										component="div"
 										className="text-red-500 text-xs italic"
-									/>
+									/> */}
 								</div>
 								<div className="mb-4">
 									<Field
@@ -80,11 +96,11 @@ function Signup() {
 										placeholder="Email"
 										className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 									/>
-									<ErrorMessage
+									{/* <ErrorMessage
 										name="email"
 										component="div"
 										className="text-red-500 text-xs italic"
-									/>
+									/> */}
 								</div>
 								<div className="mb-4">
 									<Field
@@ -93,11 +109,11 @@ function Signup() {
 										placeholder="Phone Number"
 										className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 									/>
-									<ErrorMessage
+									{/* <ErrorMessage
 										name="phone"
 										component="div"
 										className="text-red-500 text-xs italic"
-									/>
+									/> */}
 								</div>
 								<div className="mb-6">
 									<Field
@@ -106,11 +122,11 @@ function Signup() {
 										placeholder="Password"
 										className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 									/>
-									<ErrorMessage
+									{/* <ErrorMessage
 										name="password"
 										component="div"
 										className="text-red-500 text-xs italic"
-									/>
+									/> */}
 								</div>
 								<Button
 									type="submit"

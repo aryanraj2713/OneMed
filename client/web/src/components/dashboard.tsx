@@ -3,6 +3,7 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import MedicalRecords from "./MedicalRecords";
 import ConsultationRecords from "./ConsultationRecords";
+import { Link } from "react-router-dom";
 
 function Dashboard() {
 	const [activeButton, setActiveButton] = useState(""); // State to track active button
@@ -15,6 +16,36 @@ function Dashboard() {
 			setActiveButton(buttonName); // Activate button
 		}
 	};
+	const [userDetails, setUserDetails] = useState({
+		id: "",
+		bloodGroup: "",
+		allergies: [],
+		insuranceCompany: "",
+		insuranceNumber: "",
+		familyDoctor: "",
+		age: "",
+		emergencyContact: "",
+		currentMedication: [],
+	});
+
+	const [searchId, setSearchId] = useState(""); // State to store search ID
+	const handleSearch = async () => {
+		try {
+			const url = "http://127.0.0.1:8000/user/" + searchId;
+			const response = await fetch(url, {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
+			console.log(response);
+			const data = response.json();
+			console.log(data);
+
+		} catch (error) {
+			console.error(error);
+		}
+	}
 
 	return (
 		<div className="w-full h-auto min-h-screen flex flex-col gap-10 p-10">
@@ -30,12 +61,20 @@ function Dashboard() {
 					</div>
 				</div>
 			</div>
-            <hr />
+			<hr />
 			<h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
 				Hello Admin
 			</h1>
 			<div className="w-full h-[20%] px-10 flex items-center justify-center gap-4">
-				<Input className="w-[70%] " />
+				<Input
+					className="w-[70%] "
+					onChange={(e) => setSearchId(e.target.value)}
+					placeholder="Search by ID"
+					value={searchId}
+					type="text"
+					name="searchId"
+					id="searchId"
+				/>{" "}
 				<Button>Search</Button>
 			</div>
 			<div className="w-full flex justify-center">
@@ -123,33 +162,51 @@ function Dashboard() {
 					User's summary for medical history{" "}
 				</div>
 				<div>
-					Lorem ipsum dolor sit, amet consectetur adipisicing elit. Omnis
-					cupiditate blanditiis quam accusamus corporis et quas veniam optio
-					delectus. Neque nisi perferendis natus odit distinctio et accusantium
-					omnis, saepe obcaecati!{" "}
+					Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+					Omnis cupiditate blanditiis quam accusamus corporis et quas
+					veniam optio delectus. Neque nisi perferendis natus odit
+					distinctio et accusantium omnis, saepe obcaecati!{" "}
 				</div>
+			</div>
+			<div className="flex bg-orange-200 rounded-2xl border-black border py-10 justify-evenly">
+				<Link to="/upload-docs"><Button>
+					Upload Document
+				</Button></Link>
+				{/* <Link to="/upload-audio">
+					<Button>
+						Upload Audio
+					</Button>
+				</Link> */}
+				<Link to="/record-audio">
+					<Button>
+						Record Audio
+					</Button>
+				</Link>
 			</div>
 			<div className="w-full bg-orange-200 rounded-2xl flex flex-col">
 				<div className="flex w-full h-auto justify-center items-center ">
 					<button
 						type="button"
-						className={`w-[50%] border border-black p-5 ${
-							activeButton === "Medical" ? "bg-orange-300" : "bg-gray-50"
-						} rounded-tl-xl`}
+						className={`w-[50%] border border-black p-5 ${activeButton === "Medical"
+							? "bg-orange-300"
+							: "bg-gray-50"
+							} rounded-tl-xl`}
 						onClick={() => handleButtonClick("Medical")}
 					>
 						Medical Records
 					</button>
 					<button
 						type="button"
-						className={`w-[50%] border border-black p-5 ${
-							activeButton === "Consultation" ? "bg-orange-300" : "bg-gray-50"
-						} rounded-tr-xl`}
+						className={`w-[50%] border border-black p-5 ${activeButton === "Consultation"
+							? "bg-orange-300"
+							: "bg-gray-50"
+							} rounded-tr-xl`}
 						onClick={() => handleButtonClick("Consultation")}
 					>
 						Consultation Records
 					</button>
 				</div>
+
 				<div className="p-10">
 					{activeButton === "Medical" ? (
 						<MedicalRecords />
