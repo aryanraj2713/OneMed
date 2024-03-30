@@ -13,6 +13,45 @@ function RecordAudio(): JSX.Element {
         }
     };
 
+    const stepOne = async () => {
+        const formData = new FormData();
+        formData.append('voice_input', file as Blob);
+        const response = await fetch('http://127.0.0.1:8000/chat/medicalvoicesummary', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                accept: 'application/json',
+            },
+        });
+        const data = await response.json();
+        // console.log(data);
+        if (response.ok) {
+            setUploadStatus('File uploaded successfully!');
+            localStorage.setItem('audio_summary', data.medical_summary); // store the medical summary in local storage
+            console.log(data.medical_summary);
+            setFile(null);
+        } else {
+            setUploadStatus('File upload failed. Please try again.');
+        }
+    };
+
+    const steptwo = async () => {
+        const audio_summary = localStorage.getItem('audio_summary');
+        const response = await fetch('http://127.0.0.1:8000/chat/medicalsummary', {
+            method: 'POST',
+            headers: {
+                'accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                'user_input': audio_summary
+            })
+        });
+        const data = await response.json();
+        console.log(data.medical_summary);
+        localStorage.setItem('audio_mini_summary', JSON.stringify(data.medical_summary)); // store the medical mini summary in local storage
+    };
+
     const startRecording = () => {
         navigator.mediaDevices.getUserMedia({ audio: true })
             .then(stream => {
@@ -43,18 +82,8 @@ function RecordAudio(): JSX.Element {
         e.preventDefault();
         if (file) {
             try {
-                const formData = new FormData();
-                formData.append('file', file);
-                const response = await fetch('https://example.com/api/upload', {
-                    method: 'POST',
-                    body: formData,
-                });
-                if (response.ok) {
-                    setUploadStatus('File uploaded successfully!');
-                    setFile(null);
-                } else {
-                    setUploadStatus('File upload failed. Please try again.');
-                }
+                await stepOne();
+                await steptwo();
             } catch (error) {
                 console.error('Error uploading file:', error);
                 setUploadStatus('An error occurred. Please try again later.');

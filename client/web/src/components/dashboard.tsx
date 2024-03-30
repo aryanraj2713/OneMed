@@ -152,18 +152,16 @@ function Dashboard() {
 					<div className="flex w-full h-auto justify-center items-center ">
 						<button
 							type="button"
-							className={`w-[50%] border border-black p-5 ${
-								activeButton === "Medical" ? "bg-orange-300" : "bg-gray-50"
-							} rounded-tl-xl`}
+							className={`w-[50%] border border-black p-5 ${activeButton === "Medical" ? "bg-orange-300" : "bg-gray-50"
+								} rounded-tl-xl`}
 							onClick={() => handleButtonClick("Medical")}
 						>
 							Medical Records
 						</button>
 						<button
 							type="button"
-							className={`w-[50%] border border-black p-5 ${
-								activeButton === "Consultation" ? "bg-orange-300" : "bg-gray-50"
-							} rounded-tr-xl`}
+							className={`w-[50%] border border-black p-5 ${activeButton === "Consultation" ? "bg-orange-300" : "bg-gray-50"
+								} rounded-tr-xl`}
 							onClick={() => handleButtonClick("Consultation")}
 						>
 							Consultation Records
