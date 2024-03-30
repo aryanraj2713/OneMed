@@ -17,6 +17,43 @@ function Dashboard() {
 		}
 	};
 
+	const [user, setUser] = useState({
+		id: 0,
+		age: 0,
+		name: "",
+		email: "",
+		blood_group: "",
+		health_insurance: "",
+		emergency_contact: "",
+		allergies: "",
+		current_medications: "",
+		family_doctor: "",
+	});
+
+	const [userId, setUserId] = useState(0);
+
+	const handleSearch = async () => {
+		try {
+			const response = await fetch(`http://127.0.0.1:8000/search/search?medical_number=${userId}`, {
+				method: 'GET',
+				headers: {
+					'accept': 'application/json'
+				}
+			});
+
+			if (!response.ok) {
+				throw new Error('Network response was not ok');
+			}
+
+			const data = await response.json();
+			console.log(data); // Handle the JSON response here
+			setUser(data);
+		} catch (error) {
+			console.error('There was a problem with the fetch operation:', error);
+		}
+	}
+
+
 	return (
 		<div className="w-full h-auto min-h-screen flex flex-col gap-10 p-10">
 			<div className="flex w-full justify-center items-center pb-6 gap-10">
@@ -36,8 +73,13 @@ function Dashboard() {
 				Hello Admin
 			</h1>
 			<div className="w-full h-[20%] px-10 flex items-center justify-center gap-4">
-				<Input className="w-[70%] " />
-				<Button>Search</Button>
+				<Input className="w-[70%] " onChange={
+					(e) => {
+						setUserId(parseInt(e.target.value));
+					}
+				} placeholder="Search for a patient"
+				/>
+				<Button onClick={handleSearch}>Search</Button>
 			</div>
 			<div className="w-full flex justify-center">
 				<div className="w-full  h-auto   flex justify-between max-w-5xl">
@@ -45,7 +87,7 @@ function Dashboard() {
 						Blood Group
 						<div>
 							<div className="w-full flex justify-center text-7xl p-8 items-center font-bold">
-								A+
+								{user.blood_group}
 							</div>
 						</div>
 					</div>
@@ -54,7 +96,7 @@ function Dashboard() {
 							ID
 							<div>
 								<p className="w-full flex justify-center text-2xl pb-2 font-bold">
-									1234567
+									{user.id == 0 ? "" : user.id}
 								</p>
 							</div>
 						</div>
@@ -62,22 +104,21 @@ function Dashboard() {
 							Allergies
 							<div>
 								<ul className=" pt-2 text-xl font-bold pl-10">
-									<li>Dust</li>
-									<li>Smoke</li>
+									{user.allergies}
 								</ul>
 							</div>
 						</div>
 					</div>
-					<div className="h-auto bg-orange-200 border border-black px-4 py-2 flex flex-col gap-2 rounded-2xl">
+					<div className="h-auto bg-orange-200 border border-black px-2 py-2 flex flex-col gap-2 rounded-2xl">
 						Insurance company <br /> & Number
 						<div>
-							<div className="w-full flex justify-center text-3xl pt-10 items-center font-bold">
-								Company 1
+							<div className="flex justify-center text-xl pt-10 items-center font-bold">
+								{user.health_insurance}
 							</div>
-							<br />
+							{/* <br />
 							<div className="w-full flex justify-center text-3xl items-center font-bold">
-								A1121
-							</div>
+								{user.insurance_number}
+							</div> */}
 						</div>
 					</div>
 					<div className="h-full w-[20%] flex flex-col gap-4">
@@ -85,7 +126,7 @@ function Dashboard() {
 							Family Doctor
 							<div>
 								<p className="w-full flex justify-center text-xl pb-2 font-bold">
-									Dr. Rajmohan P.
+									{user.family_doctor}
 								</p>
 							</div>
 						</div>
@@ -93,7 +134,7 @@ function Dashboard() {
 							Age
 							<div>
 								<p className="w-full flex justify-center text-xl pb-2 font-bold">
-									19
+									{user.age == 0 ? "" : user.age}
 								</p>
 							</div>
 						</div>
@@ -101,7 +142,7 @@ function Dashboard() {
 							Emergency Contact
 							<div>
 								<p className="w-full flex justify-center text-xl pb-2 font-bold">
-									9312948273
+									{user.emergency_contact}
 								</p>
 							</div>
 						</div>
@@ -111,15 +152,14 @@ function Dashboard() {
 						<div>
 							<div className="w-full flex justify-center text-xl pt-10 items-center font-bold">
 								<ul>
-									<li>Med 1 </li>
-									<li>Med 2</li>
+									{user.current_medications}
 								</ul>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div className="flex w-full justify-center">
+			{/* <div className="flex w-full justify-center">
 				<div className="p-4 flex flex-col w-full h-auto border max-w-5xl bg-orange-200 border-black rounded-2xl">
 					<div className="pb-5 font-bold ">
 						User's summary for medical history{" "}
@@ -131,7 +171,7 @@ function Dashboard() {
 						accusantium omnis, saepe obcaecati!{" "}
 					</div>
 				</div>
-			</div>
+			</div> */}
 			<div className="flex w-full justify-center ">
 				<div className="flex w-full bg-orange-200 rounded-2xl border-black border py-10 justify-evenly max-w-5xl">
 					<Link to="/upload-docs">
