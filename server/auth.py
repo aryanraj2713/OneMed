@@ -40,6 +40,9 @@ class CreateUserRequest(BaseModel):
 class Token(BaseModel):
     access_token: str
     token_type: str
+    name: str
+    email: str
+    medical_number: int = None
 
 
 def get_db():
@@ -56,6 +59,10 @@ db_dependency = Annotated[Session, Depends(get_db)]
 @router.post("/signup", status_code=status.HTTP_201_CREATED)
 async def create_user(db: db_dependency, create_user_request: CreateUserRequest):
     if create_user_request.is_hospital:
+        user = {
+            "name": create_user_request.name,
+            "email": create_user_request.email,
+        }
         create_user_model = Hospitals(
             name=create_user_request.name,
             address=create_user_request.address,
@@ -64,6 +71,11 @@ async def create_user(db: db_dependency, create_user_request: CreateUserRequest)
             password=bcrypt_context.hash(create_user_request.password),
         )
     else:
+        user = {
+            "name": create_user_request.name,
+            "email": create_user_request.email,
+            "medical_number": random.randint(1000000, 9999999),
+        }
         create_user_model = Users(
             name=create_user_request.name,
             age=create_user_request.age,
@@ -76,7 +88,7 @@ async def create_user(db: db_dependency, create_user_request: CreateUserRequest)
             medical_history=create_user_request.medical_history,
             health_insurance=create_user_request.health_insurance,
             emergency_contact=create_user_request.emergency_contact,
-            medical_number=random.randint(1000000, 9999999),
+            medical_number=user["medical_number"] if "medical_number" in user else None,
         )
     db.add(create_user_model)
     db.commit()
@@ -85,6 +97,7 @@ async def create_user(db: db_dependency, create_user_request: CreateUserRequest)
             create_user_model.email, create_user_model.id, timedelta(minutes=60)
         ),
         "token_type": "bearer",
+        "user": user,
     }
 
 
@@ -115,7 +128,13 @@ async def login_for_access_token(
             detail="Incorrect email or password",
         )
     token = create_access_token(user.email, user.id, timedelta(minutes=60))
-    return {"access_token": token, "token_type": "bearer"}
+    return {
+        "access_token": token,
+        "token_type": "bearer",
+        "name": user.name,
+        "email": user.email,
+        "medical_number": user.medical_number if hasattr(user, "medical_number") else None,
+    }
 
 
 def authenticate_user(email: str, password: str, db):
