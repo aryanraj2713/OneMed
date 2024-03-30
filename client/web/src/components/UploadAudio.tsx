@@ -40,7 +40,7 @@ function UploadAudio(): JSX.Element {
         });
         const data = await response.json();
         console.log(data.medical_summary);
-        localStorage.setItem('audio_mini_summary', JSON.stringify(data)); // store the medical mini summary in local storage
+        localStorage.setItem('audio_mini_summary', JSON.stringify(data.medical_summary)); // store the medical mini summary in local storage
     };
 
 

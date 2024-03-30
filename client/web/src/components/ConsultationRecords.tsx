@@ -6,13 +6,16 @@ import {
 } from "@/components/ui/accordion";
 
 function ConsultationRecords() {
+	const consultationRecords = localStorage.getItem("audio_mini_summary") || "No consultation records found";
 	return (
 		<div>
 			<Accordion type="single" collapsible>
 				<AccordionItem value="item-1">
-					<AccordionTrigger>Is it accessible?</AccordionTrigger>
+					<AccordionTrigger>Check Your Consultation History</AccordionTrigger>
 					<AccordionContent>
-						Yes. It adheres to the WAI-ARIA design pattern.
+						{
+							consultationRecords
+						}
 					</AccordionContent>
 				</AccordionItem>
 			</Accordion>
