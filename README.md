@@ -5,7 +5,8 @@ In India, Electronic Health Systems (EHS) often face challenges due to a lack of
 
 # Presentation and Demo
 
-[PowerPoint Presentation]()
+
+[Presentation](https://github.com/aryanraj2713/OneMed/files/14810513/200-ok.pptx)
 
 
 [Demo Video]()
