@@ -2,6 +2,15 @@
 
 In India, Electronic Health Systems (EHS) often face challenges due to a lack of digital infrastructure, handwritten prescriptions, and a lack of AI integration with medical reports. OneMed is here to revolutionize this landscape by offering a comprehensive solution to address these challenges head-on.
 
+
+# Presentation and Demo
+
+[PowerPoint Presentation]()
+
+
+[Demo Video]()
+
+
 ## Overview
 
 OneMed is an innovative Electronic Health System (EHS) / Electronic Health Repository (EHR) platform designed to streamline and enhance the healthcare experience for both patients and medical practitioners. Our platform leverages cutting-edge technology, including AI integration and mobile applications, to provide users with a seamless and efficient healthcare management solution.
