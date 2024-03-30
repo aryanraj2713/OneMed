@@ -6,6 +6,7 @@ import Dashboard from "./components/dashboard";
 import Uploaddocument from "./components/upload-document";
 import Uploadaudio from "./components/upload-audio";
 import Recordaudio from "./components/record-audio";
+import RecordAudio from "./components/RecordAudio";
 
 export default function App() {
 	return (
@@ -19,6 +20,7 @@ export default function App() {
 					<Route path="/upload-docs" element={<Uploaddocument />} />
 					<Route path="/upload-audio" element={<Uploadaudio />} />
 					<Route path="/record-audio" element={<Recordaudio />} />
+					<Route path="/recordAudio" element={<RecordAudio />} />
 				</Routes>
 			</BrowserRouter>
 		</div>

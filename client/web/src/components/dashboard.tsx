@@ -142,7 +142,7 @@ function Dashboard() {
 						Upload Audio
 					</Button>
 				</Link> */}
-					<Link to="/record-audio">
+					<Link to="/recordAudio">
 						<Button>Record Audio</Button>
 					</Link>
 				</div>
