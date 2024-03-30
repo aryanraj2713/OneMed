@@ -10,11 +10,12 @@ from passlib.context import CryptContext
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
 import random
+import os
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
-SECRET_KEY = "njf3nf9iaiqiqoajlknbvxcusgouy8957692getfyy"
-ALGORITHM = "HS256"
+SECRET_KEY = os.getenv("JWT_SECRET_KEY")
+ALGORITHM = os.getenv("JWT_ALGORITHM")
 
 bcrypt_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_bearer = OAuth2PasswordBearer(tokenUrl="/auth/login")
