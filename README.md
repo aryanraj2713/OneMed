@@ -46,12 +46,5 @@ OneMed integrates AI technologies to automate and enhance various aspects of the
 
 - **Enhanced Data Insights:** The platform generates valuable data for medical research and Machine Learning (ML) fields, contributing to advancements in healthcare technologies and treatments.
 
-## Get Started
-
-Ready to experience the future of healthcare management with OneMed? Get started today by visiting our website or downloading our mobile application from the App Store or Google Play Store.
-
-
-Join us in revolutionizing healthcare management with OneMed!
-
 ---
 
